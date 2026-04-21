@@ -1,0 +1,72 @@
+Build me a complete multi-tool website called "ToolsHub" with the following:
+
+PAGES & STRUCTURE:
+- Homepage with hero section, search bar, tool category grid (6 categories)
+- Individual tool pages for each tool listed below
+- About page, Contact page, Privacy Policy page
+- Responsive navbar with logo, search, and dark mode toggle
+- Footer with links, social icons, and AdSense-ready ad slots
+
+TOOLS TO BUILD (7 tools):
+1. AI Resume / CV Builder
+   - Form with name, skills, experience, education fields
+   - Choose template (Modern, Classic, Creative)
+   - Generate resume using AI (OpenAI or Gemini API)
+   - Download as PDF button
+
+2. PDF to Word Converter
+   - Upload PDF file (drag and drop + click)
+   - Convert to .docx using free API
+   - Download converted file button
+
+3. Word to PDF Converter
+   - Upload .docx file
+   - Convert to PDF
+   - Download PDF button
+
+4. YouTube Video Downloader
+   - Paste YouTube URL
+   - Show video title + thumbnail preview
+   - Choose quality (360p, 720p, 1080p)
+   - Download button (use RapidAPI yt-download or similar)
+
+5. Facebook / Instagram Video Downloader
+   - Paste video URL
+   - Fetch and show preview
+   - Download MP4 button
+
+6. Image Compressor
+   - Upload image (JPG/PNG/WEBP)
+   - Compress with quality slider (10%–100%)
+   - Show before/after file size
+   - Download compressed image
+
+7. QR Code Generator
+   - Input any URL or text
+   - Choose size and color
+   - Generate QR code live (no API needed, client-side)
+   - Download as PNG
+
+UI/UX REQUIREMENTS:
+- Clean, modern design using Tailwind CSS
+- Card-based tool grid on homepage
+- Each tool page has: tool header, usage instructions, the tool itself, and FAQ section
+- Mobile responsive (works on all screen sizes)
+- Fast loading — lazy load images
+- SEO meta tags on every page (title, description, og:image)
+- Google AdSense ad slots placed: top of page, between tools, sidebar, bottom banner
+- Cookie consent banner (GDPR ready)
+
+TECH STACK:
+- Frontend: Next.js 14 + Tailwind CSS
+- Backend: Next.js API routes (serverless)
+- Database: Supabase (for user signups / usage logs)
+- Auth: Supabase Auth (optional login to save resumes)
+- File handling: client-side where possible, serverless functions for conversion
+
+MONETIZATION READY:
+- AdSense placeholder divs with class "ad-slot" on every page
+- Premium plan UI (free vs pro comparison section on homepage)
+- Email newsletter signup form connected to Mailchimp or Resend
+
+Please generate the complete project with all files, folders, components, API routes, and configuration. Include a README with setup instructions.
