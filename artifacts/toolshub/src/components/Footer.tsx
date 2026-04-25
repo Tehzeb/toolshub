@@ -17,16 +17,38 @@ export function Footer() {
               built for the modern web.
             </p>
             <div className="flex gap-3 mt-5">
-              <a href="#" aria-label="Twitter" className="text-muted-foreground hover:text-foreground">
+              <a
+                href="#"
+                aria-label="Twitter"
+                className="text-muted-foreground hover:text-foreground"
+              >
                 <FaXTwitter className="h-4 w-4" />
               </a>
-              <a href="#" aria-label="GitHub" className="text-muted-foreground hover:text-foreground">
+              <a
+                href="https://github.com/Tehzeb"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub"
+                className="text-muted-foreground hover:text-foreground"
+              >
                 <FaGithub className="h-4 w-4" />
               </a>
-              <a href="#" aria-label="Instagram" className="text-muted-foreground hover:text-foreground">
+              <a
+                href="https://www.instagram.com/tehzeeb.tech/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                className="text-muted-foreground hover:text-foreground"
+              >
                 <FaInstagram className="h-4 w-4" />
               </a>
-              <a href="#" aria-label="LinkedIn" className="text-muted-foreground hover:text-foreground">
+              <a
+                href="https://www.linkedin.com/in/muhammad-tehzeeb-ul-hassan/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+                className="text-muted-foreground hover:text-foreground"
+              >
                 <FaLinkedin className="h-4 w-4" />
               </a>
             </div>
