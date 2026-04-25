@@ -51,11 +51,11 @@ export default function Privacy() {
         <h2>Your rights</h2>
         <p>
           Under GDPR and similar laws, you have the right to access, correct, or delete the data we
-          hold about you. Email us at hello@toolshub.app and we'll respond within 30 days.
+          hold about you. Email us at tehzeeb.x51214@gmail.com and we'll respond within 30 days.
         </p>
 
         <h2>Contact</h2>
-        <p>For privacy questions, reach us at hello@toolshub.app.</p>
+        <p>For privacy questions, reach us at tehzeeb.x51214@gmail.com.</p>
       </div>
     </div>
   );

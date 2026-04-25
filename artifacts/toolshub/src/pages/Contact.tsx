@@ -36,7 +36,7 @@ export default function Contact() {
         <div className="p-5 rounded-xl border bg-card">
           <Mail className="h-5 w-5 text-primary" />
           <p className="font-medium mt-2 text-sm">Email</p>
-          <p className="text-sm text-muted-foreground">hello@toolshub.app</p>
+          <p className="text-sm text-muted-foreground">tehzeeb.x51214@gmail.com</p>
         </div>
         <div className="p-5 rounded-xl border bg-card">
           <MessageSquare className="h-5 w-5 text-primary" />

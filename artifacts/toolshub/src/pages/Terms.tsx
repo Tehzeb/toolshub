@@ -145,7 +145,7 @@ export default function Terms() {
         <h2>13. Contact us</h2>
         <p>
           If you have any questions about these Terms, please contact us at:{" "}
-          <a href="mailto:toolshub.contact@gmail.com">toolshub.contact@gmail.com</a>
+          <a href="mailto:tehzeeb.x51214@gmail.com">tehzeeb.x51214@gmail.com</a>
         </p>
       </div>
     </div>
