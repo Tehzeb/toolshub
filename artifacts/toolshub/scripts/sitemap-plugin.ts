@@ -10,7 +10,7 @@ const TOOL_SLUGS = [
   "qr-generator",
 ];
 
-const STATIC_PATHS = ["/", "/about", "/contact", "/privacy"];
+const STATIC_PATHS = ["/", "/about", "/contact", "/privacy", "/privacy-policy"];
 
 interface Options {
   /** Public site URL, e.g. "https://toolshub.app". Falls back to SITE_URL env var, then a placeholder. */
