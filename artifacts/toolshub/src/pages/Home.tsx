@@ -1,9 +1,17 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useSearch } from "wouter";
 import { motion } from "framer-motion";
-import { ArrowRight, Check, ExternalLink, Search, Sparkles, Shield, Star, Zap } from "lucide-react";
+import { ArrowRight, Check, ExternalLink, Mail, Search, Sparkles, Shield, Star, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { useDocumentMeta } from "@/hooks/use-document-meta";
 import { TOOLS, CATEGORIES } from "@/lib/tools";
 import { AdSlot } from "@/components/AdSlot";
@@ -20,7 +28,13 @@ export default function Home() {
   const initialQ = new URLSearchParams(searchString).get("q") ?? "";
   const [query, setQuery] = useState(initialQ);
   const [email, setEmail] = useState("");
+  const [proOpen, setProOpen] = useState(false);
   const { toast } = useToast();
+
+  const scrollToTools = () => {
+    const el = document.getElementById("tools");
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
   useEffect(() => setQuery(initialQ), [initialQ]);
 
@@ -120,7 +134,7 @@ export default function Home() {
       </div>
 
       {/* TOOLS GRID */}
-      <section className="container mx-auto max-w-7xl px-4 py-16" id="tools">
+      <section className="container mx-auto max-w-7xl px-4 py-16 scroll-mt-24" id="tools">
         <div className="flex items-end justify-between mb-8 flex-wrap gap-4">
           <div>
             <h2 className="text-2xl md:text-3xl font-bold tracking-tight">All tools</h2>
@@ -252,6 +266,7 @@ export default function Home() {
                 "Standard download speed",
               ],
               cta: "Start using",
+              onClick: scrollToTools,
               highlight: false,
             },
             {
@@ -266,6 +281,7 @@ export default function Home() {
                 "Save and reuse resumes",
               ],
               cta: "Get Pro",
+              onClick: () => setProOpen(true),
               highlight: true,
             },
           ].map((plan) => (
@@ -294,8 +310,9 @@ export default function Home() {
                 ))}
               </ul>
               <Button
-                className="w-full mt-8"
+                className="w-full mt-8 transition-all hover:shadow-md hover:-translate-y-0.5 active:translate-y-0"
                 variant={plan.highlight ? "default" : "outline"}
+                onClick={plan.onClick}
                 data-testid={`button-plan-${plan.name.toLowerCase()}`}
               >
                 {plan.cta}
@@ -330,6 +347,51 @@ export default function Home() {
           </form>
         </div>
       </section>
+
+      {/* PRO ACCESS MODAL */}
+      <Dialog open={proOpen} onOpenChange={setProOpen}>
+        <DialogContent className="sm:max-w-md" data-testid="dialog-pro-access">
+          <DialogHeader>
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 mb-2">
+              <Sparkles className="h-6 w-6 text-primary" />
+            </div>
+            <DialogTitle className="text-center text-xl">Pro access coming soon!</DialogTitle>
+            <DialogDescription className="text-center pt-2">
+              We're putting the finishing touches on the Pro plan. Email us to get early access
+              and a launch discount when it goes live.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="rounded-lg border bg-muted/40 p-4 flex items-center gap-3">
+            <Mail className="h-5 w-5 text-primary shrink-0" />
+            <a
+              href="mailto:tehzeeb.x51214@gmail.com?subject=ToolsHub%20Pro%20%E2%80%94%20Early%20access%20request"
+              className="text-sm font-medium hover:underline break-all"
+              data-testid="link-pro-email"
+            >
+              tehzeeb.x51214@gmail.com
+            </a>
+          </div>
+          <DialogFooter className="flex-col sm:flex-row gap-2">
+            <Button
+              variant="outline"
+              onClick={() => setProOpen(false)}
+              className="w-full sm:w-auto"
+              data-testid="button-pro-close"
+            >
+              Maybe later
+            </Button>
+            <Button
+              asChild
+              className="w-full sm:w-auto"
+              data-testid="button-pro-email"
+            >
+              <a href="mailto:tehzeeb.x51214@gmail.com?subject=ToolsHub%20Pro%20%E2%80%94%20Early%20access%20request">
+                Email for early access
+              </a>
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
