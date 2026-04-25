@@ -13,9 +13,11 @@ const TOOL_SLUGS = [
 const STATIC_PATHS = ["/", "/about", "/contact", "/privacy", "/privacy-policy", "/terms", "/cookie-policy"];
 
 interface Options {
-  /** Public site URL, e.g. "https://toolshub.app". Falls back to SITE_URL env var, then a placeholder. */
+  /** Public site URL. Falls back to SITE_URL env var, then the deployed Replit domain. */
   siteUrl?: string;
 }
+
+const DEFAULT_SITE_URL = "https://tools-hub--tehzeebx51214.replit.app";
 
 function buildSitemap(siteUrl: string): string {
   const today = new Date().toISOString().slice(0, 10);
@@ -59,7 +61,7 @@ export function sitemapPlugin(options: Options = {}): Plugin {
   const siteUrl =
     options.siteUrl ||
     process.env.SITE_URL ||
-    "https://toolshub.app";
+    DEFAULT_SITE_URL;
 
   return {
     name: "toolshub:sitemap",
