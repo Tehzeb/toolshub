@@ -53,7 +53,7 @@ export function AdSlot({
           position: "absolute",
           inset: 0,
         }}
-        data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+        data-ad-client="ca-pub-6198237615351180"
         data-ad-slot={slot}
         data-ad-format={format}
         data-full-width-responsive="false"
