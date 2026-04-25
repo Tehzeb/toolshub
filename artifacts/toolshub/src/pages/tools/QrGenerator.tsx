@@ -17,7 +17,7 @@ export default function QrGenerator() {
   });
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [text, setText] = useState("https://toolshub.app");
+  const [text, setText] = useState("https://tools-hub--tehzeebx51214.replit.app");
   const [size, setSize] = useState(300);
   const [fg, setFg] = useState("#0f172a");
   const [bg, setBg] = useState("#ffffff");
