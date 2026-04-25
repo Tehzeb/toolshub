@@ -45,10 +45,27 @@ All tools are client-side only (no backend processing of user files).
 
 Wouter with `base={import.meta.env.BASE_URL.replace(/\/$/, "")}` so the app works at any artifact base path.
 
-## SEO
+## SEO & Analytics
 
-- `index.html` has title, description, og tags.
-- `hooks/use-document-meta.ts` updates `<title>` and meta tags per page.
+- `index.html` has title, description, og tags, and theme-color.
+- `hooks/use-document-meta.ts` updates `<title>` and meta tags per page (description, og, twitter card).
+- Google Analytics placeholder script in `index.html` head — replace `G-XXXXXXXXXX` with your GA4 Measurement ID.
+
+## Ads (AdSense-ready)
+
+- Google AdSense loader script placeholder in `index.html` head — replace `ca-pub-XXXXXXXXXXXXXXXX` with your Publisher ID.
+- `components/AdSlot.tsx` renders an `<ins class="adsbygoogle">` inside a styled placeholder. Each placement uses a unique `slot` ID:
+  - **Header banner** (`slot="1111111111"`) — below navbar in `Layout.tsx`.
+  - **Sidebar** (`slot="2222222222"`) — vertical, sticky, on tool pages (lg breakpoint and up).
+  - **In-article** (`slot="3333333333"`) — bottom of every tool page.
+  - **Footer banner** (default slot) — top of footer.
+- Placeholders show "Ad" labels until you wire real slot IDs.
+
+## Affiliate / Recommended Tools
+
+- Recommended Tools section on Home featuring Notion, Canva Pro, Grammarly, NordVPN, Adobe Acrobat, Figma.
+- Outbound links use `rel="sponsored noopener noreferrer"` and a `?ref=toolshub` query param for tracking.
+- Disclosure note shown beneath the section.
 
 ## Dev dependencies (added)
 

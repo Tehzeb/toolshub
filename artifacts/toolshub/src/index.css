@@ -288,6 +288,7 @@
   }
 
   .ad-slot {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -299,5 +300,6 @@
     font-size: 0.75rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
+    overflow: hidden;
   }
 }

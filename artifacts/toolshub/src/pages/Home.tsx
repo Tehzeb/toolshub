@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useSearch } from "wouter";
 import { motion } from "framer-motion";
-import { ArrowRight, Check, Search, Sparkles, Shield, Zap } from "lucide-react";
+import { ArrowRight, Check, ExternalLink, Search, Sparkles, Shield, Star, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useDocumentMeta } from "@/hooks/use-document-meta";
@@ -175,6 +175,60 @@ export default function Home() {
             })}
           </div>
         )}
+      </section>
+
+      {/* RECOMMENDED TOOLS (affiliate-friendly) */}
+      <section className="container mx-auto max-w-7xl px-4 py-16 border-t">
+        <div className="text-center mb-10">
+          <span className="inline-flex items-center gap-1.5 rounded-full border bg-card px-3 py-1 text-xs font-medium text-muted-foreground mb-3">
+            <Star className="h-3 w-3 text-amber-500" /> Recommended for power users
+          </span>
+          <h2 className="text-2xl md:text-3xl font-bold tracking-tight">Tools we love</h2>
+          <p className="text-muted-foreground mt-2 max-w-xl mx-auto">
+            When our free tools aren't enough, here are paid apps we genuinely use and recommend.
+            Some links may be affiliate links.
+          </p>
+        </div>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {[
+            { name: "Notion", tag: "Notes & Docs", desc: "All-in-one workspace for notes, docs, and project tracking.", cta: "Try Notion", href: "https://www.notion.so/?ref=toolshub", accent: "from-slate-500 to-slate-700" },
+            { name: "Canva Pro", tag: "Design", desc: "Pro design templates for social, presentations, and print.", cta: "Get Canva Pro", href: "https://www.canva.com/pro/?ref=toolshub", accent: "from-cyan-500 to-blue-500" },
+            { name: "Grammarly", tag: "Writing", desc: "Smart writing assistant for cleaner emails, docs, and posts.", cta: "Try Grammarly", href: "https://www.grammarly.com/?ref=toolshub", accent: "from-emerald-500 to-green-600" },
+            { name: "NordVPN", tag: "Privacy", desc: "Fast, no-logs VPN for safer browsing on any network.", cta: "See NordVPN", href: "https://nordvpn.com/?ref=toolshub", accent: "from-blue-600 to-indigo-700" },
+            { name: "Adobe Acrobat", tag: "PDF Pro", desc: "The professional standard for PDF editing and signing.", cta: "Try Acrobat", href: "https://www.adobe.com/acrobat.html?ref=toolshub", accent: "from-red-500 to-rose-600" },
+            { name: "Figma", tag: "Design", desc: "Collaborative interface design tool used by modern teams.", cta: "Open Figma", href: "https://www.figma.com/?ref=toolshub", accent: "from-fuchsia-500 to-pink-500" },
+          ].map((rec, i) => (
+            <motion.a
+              key={rec.name}
+              href={rec.href}
+              target="_blank"
+              rel="sponsored noopener noreferrer"
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.3, delay: i * 0.04 }}
+              className="group p-6 rounded-2xl border bg-card hover-elevate flex flex-col"
+              data-testid={`recommended-${rec.name.toLowerCase().replace(/\s+/g, "-")}`}
+            >
+              <div className="flex items-center justify-between mb-3">
+                <div className={`h-10 w-10 rounded-lg bg-gradient-to-br ${rec.accent} grid place-items-center text-white font-bold text-sm shadow-sm`}>
+                  {rec.name.charAt(0)}
+                </div>
+                <span className="text-xs font-medium text-muted-foreground bg-secondary rounded-full px-2.5 py-1">
+                  {rec.tag}
+                </span>
+              </div>
+              <h3 className="font-semibold text-lg">{rec.name}</h3>
+              <p className="text-sm text-muted-foreground mt-1 flex-1">{rec.desc}</p>
+              <span className="mt-4 inline-flex items-center text-sm font-medium text-primary group-hover:gap-2 gap-1 transition-all">
+                {rec.cta} <ExternalLink className="h-3.5 w-3.5" />
+              </span>
+            </motion.a>
+          ))}
+        </div>
+        <p className="text-xs text-muted-foreground text-center mt-6">
+          Disclosure: Some links above are affiliate links. If you buy through them, ToolsHub may earn a small commission at no extra cost to you.
+        </p>
       </section>
 
       {/* FREE VS PRO */}
