@@ -10,6 +10,7 @@ import About from "@/pages/About";
 import Contact from "@/pages/Contact";
 import Privacy from "@/pages/Privacy";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
+import Terms from "@/pages/Terms";
 import ResumeBuilder from "@/pages/tools/ResumeBuilder";
 import PdfToWord from "@/pages/tools/PdfToWord";
 import WordToPdf from "@/pages/tools/WordToPdf";
@@ -28,6 +29,7 @@ function Router() {
       <Route path="/contact" component={Contact} />
       <Route path="/privacy" component={Privacy} />
       <Route path="/privacy-policy" component={PrivacyPolicy} />
+      <Route path="/terms" component={Terms} />
       <Route path="/tool/resume-builder" component={ResumeBuilder} />
       <Route path="/tool/pdf-to-word" component={PdfToWord} />
       <Route path="/tool/word-to-pdf" component={WordToPdf} />
