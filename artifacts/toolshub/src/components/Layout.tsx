@@ -3,6 +3,7 @@ import { Navbar } from "./Navbar";
 import { Footer } from "./Footer";
 import { CookieBanner } from "./CookieBanner";
 import { AdSlot } from "./AdSlot";
+import { ExitIntentPopup } from "./ExitIntentPopup";
 
 export function Layout({ children }: { children: ReactNode }) {
   return (
@@ -14,6 +15,7 @@ export function Layout({ children }: { children: ReactNode }) {
       <main className="flex-1">{children}</main>
       <Footer />
       <CookieBanner />
+      <ExitIntentPopup />
     </div>
   );
 }

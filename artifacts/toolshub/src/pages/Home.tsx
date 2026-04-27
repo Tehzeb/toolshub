@@ -16,6 +16,7 @@ import { useDocumentMeta } from "@/hooks/use-document-meta";
 import { TOOLS, CATEGORIES } from "@/lib/tools";
 import { AdSlot } from "@/components/AdSlot";
 import { useToast } from "@/hooks/use-toast";
+import { subscribeEmail } from "@/lib/newsletter";
 
 export default function Home() {
   useDocumentMeta({
@@ -28,6 +29,7 @@ export default function Home() {
   const initialQ = new URLSearchParams(searchString).get("q") ?? "";
   const [query, setQuery] = useState(initialQ);
   const [email, setEmail] = useState("");
+  const [submittingEmail, setSubmittingEmail] = useState(false);
   const [proOpen, setProOpen] = useState(false);
   const { toast } = useToast();
 
@@ -50,14 +52,25 @@ export default function Home() {
     );
   }, [query]);
 
-  const onSignup = (e: React.FormEvent) => {
+  const onSignup = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email.trim()) return;
-    toast({
-      title: "You're on the list",
-      description: "We'll send you new tools and updates — never spam.",
-    });
-    setEmail("");
+    if (!email.trim() || submittingEmail) return;
+    setSubmittingEmail(true);
+    const result = await subscribeEmail(email);
+    setSubmittingEmail(false);
+    if (result.ok) {
+      toast({
+        title: "You're on the list",
+        description: result.message,
+      });
+      setEmail("");
+    } else {
+      toast({
+        title: "Hmm, that didn't work",
+        description: result.message,
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -341,8 +354,14 @@ export default function Home() {
               className="h-12"
               data-testid="input-newsletter"
             />
-            <Button type="submit" size="lg" className="h-12" data-testid="button-newsletter">
-              Subscribe
+            <Button
+              type="submit"
+              size="lg"
+              className="h-12"
+              disabled={submittingEmail}
+              data-testid="button-newsletter"
+            >
+              {submittingEmail ? "Subscribing…" : "Subscribe"}
             </Button>
           </form>
         </div>
