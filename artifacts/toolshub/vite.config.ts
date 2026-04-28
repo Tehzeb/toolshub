@@ -2,7 +2,6 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import path from "path";
-import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
 import { sitemapPlugin } from "./scripts/sitemap-plugin";
 
 const rawPort = process.env.PORT;
@@ -12,31 +11,56 @@ const port =
 
 const basePath = process.env.BASE_PATH || "/";
 
+// Detect if running inside Replit environment
+const isReplit = process.env.REPL_ID !== undefined;
+
+// Conditionally load Replit-only plugins so Vercel build never crashes
+const replitDevPlugins: any[] = [];
+
+if (isReplit && process.env.NODE_ENV !== "production") {
+  try {
+    const { default: runtimeErrorOverlay } = await import(
+      "@replit/vite-plugin-runtime-error-modal"
+    );
+    replitDevPlugins.push(runtimeErrorOverlay());
+  } catch {
+    // package not available outside Replit — skip silently
+  }
+
+  try {
+    const { cartographer } = await import("@replit/vite-plugin-cartographer");
+    replitDevPlugins.push(
+      cartographer({ root: path.resolve(import.meta.dirname, "..") })
+    );
+  } catch {
+    // package not available outside Replit — skip silently
+  }
+
+  try {
+    const { devBanner } = await import("@replit/vite-plugin-dev-banner");
+    replitDevPlugins.push(devBanner());
+  } catch {
+    // package not available outside Replit — skip silently
+  }
+}
+
 export default defineConfig({
   base: basePath,
   plugins: [
     react(),
     tailwindcss(),
-    runtimeErrorOverlay(),
     sitemapPlugin(),
-    ...(process.env.NODE_ENV !== "production" &&
-    process.env.REPL_ID !== undefined
-      ? [
-          await import("@replit/vite-plugin-cartographer").then((m) =>
-            m.cartographer({
-              root: path.resolve(import.meta.dirname, ".."),
-            }),
-          ),
-          await import("@replit/vite-plugin-dev-banner").then((m) =>
-            m.devBanner(),
-          ),
-        ]
-      : []),
+    ...replitDevPlugins,
   ],
   resolve: {
     alias: {
       "@": path.resolve(import.meta.dirname, "src"),
-      "@assets": path.resolve(import.meta.dirname, "..", "..", "attached_assets"),
+      "@assets": path.resolve(
+        import.meta.dirname,
+        "..",
+        "..",
+        "attached_assets"
+      ),
     },
     dedupe: ["react", "react-dom"],
   },
