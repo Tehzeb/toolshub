@@ -1,100 +1,170 @@
 import type { Plugin } from "vite";
+import { writeFileSync, mkdirSync } from "fs";
+import path from "path";
 
-const TOOL_SLUGS = [
-  "resume-builder",
-  "pdf-to-word",
-  "word-to-pdf",
-  "youtube-downloader",
-  "social-downloader",
-  "image-compressor",
-  "qr-generator",
-];
+// ─── IMPORTANT: Change this when you get a custom domain ───────
+const SITE_URL =
+  process.env.SITE_URL || "https://toolshub-mauve.vercel.app";
+// ───────────────────────────────────────────────────────────────
 
-const STATIC_PATHS = ["/", "/about", "/contact", "/privacy", "/privacy-policy", "/terms", "/cookie-policy"];
-
-interface Options {
-  /** Public site URL. Falls back to SITE_URL env var, then the deployed Replit domain. */
-  siteUrl?: string;
+interface SitemapURL {
+  loc: string;
+  lastmod?: string;
+  changefreq?:
+    | "always"
+    | "hourly"
+    | "daily"
+    | "weekly"
+    | "monthly"
+    | "yearly"
+    | "never";
+  priority?: number;
 }
 
-const DEFAULT_SITE_URL = "https://tools-hub--tehzeebx51214.replit.app";
+function generateSitemap(urls: SitemapURL[]): string {
+  const today = new Date().toISOString().split("T")[0];
 
-function buildSitemap(siteUrl: string): string {
-  const today = new Date().toISOString().slice(0, 10);
-  const base = siteUrl.replace(/\/$/, "");
-
-  const entries = [
-    ...STATIC_PATHS.map((p) => ({
-      loc: `${base}${p}`,
-      priority: p === "/" ? "1.0" : "0.7",
-      changefreq: p === "/" ? "weekly" : "monthly",
-    })),
-    ...TOOL_SLUGS.map((slug) => ({
-      loc: `${base}/tool/${slug}`,
-      priority: "0.9",
-      changefreq: "monthly",
-    })),
-  ];
-
-  const urls = entries
-    .map(
-      (e) =>
-        `  <url>\n    <loc>${e.loc}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>${e.changefreq}</changefreq>\n    <priority>${e.priority}</priority>\n  </url>`
-    )
+  const urlEntries = urls
+    .map(({ loc, lastmod, changefreq, priority }) => {
+      return `
+  <url>
+    <loc>${loc}</loc>
+    <lastmod>${lastmod ?? today}</lastmod>
+    <changefreq>${changefreq ?? "weekly"}</changefreq>
+    <priority>${priority ?? 0.8}</priority>
+  </url>`.trimStart();
+    })
     .join("\n");
 
-  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`;
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urlEntries}
+</urlset>`;
 }
 
-function buildRobots(siteUrl: string): string {
-  const base = siteUrl.replace(/\/$/, "");
-  return `# robots.txt for ToolsHub
-User-agent: *
+function generateRobotsTxt(): string {
+  return `User-agent: *
 Allow: /
 Disallow: /api/
 
-Sitemap: ${base}/sitemap.xml
+Sitemap: ${SITE_URL}/sitemap.xml
 `;
 }
 
-export function sitemapPlugin(options: Options = {}): Plugin {
-  const siteUrl =
-    options.siteUrl ||
-    process.env.SITE_URL ||
-    DEFAULT_SITE_URL;
-
+export function sitemapPlugin(): Plugin {
   return {
-    name: "toolshub:sitemap",
+    name: "sitemap-plugin",
+    closeBundle() {
+      // All pages in your ToolsHub website
+      const urls: SitemapURL[] = [
+        // Homepage — highest priority
+        {
+          loc: `${SITE_URL}/`,
+          changefreq: "daily",
+          priority: 1.0,
+        },
 
-    configureServer(server) {
-      server.middlewares.use((req, res, next) => {
-        if (!req.url) return next();
-        const url = req.url.split("?")[0].replace(/\/+$/, "");
-        if (url.endsWith("/sitemap.xml")) {
-          res.setHeader("Content-Type", "application/xml");
-          res.end(buildSitemap(siteUrl));
-          return;
-        }
-        if (url.endsWith("/robots.txt")) {
-          res.setHeader("Content-Type", "text/plain");
-          res.end(buildRobots(siteUrl));
-          return;
-        }
-        next();
-      });
-    },
+        // Tool pages — high priority (these are the main content)
+        {
+          loc: `${SITE_URL}/tools/ai-resume-builder`,
+          changefreq: "weekly",
+          priority: 0.9,
+        },
+        {
+          loc: `${SITE_URL}/tools/pdf-to-word`,
+          changefreq: "weekly",
+          priority: 0.9,
+        },
+        {
+          loc: `${SITE_URL}/tools/word-to-pdf`,
+          changefreq: "weekly",
+          priority: 0.9,
+        },
+        {
+          loc: `${SITE_URL}/tools/youtube-downloader`,
+          changefreq: "weekly",
+          priority: 0.9,
+        },
+        {
+          loc: `${SITE_URL}/tools/social-video-downloader`,
+          changefreq: "weekly",
+          priority: 0.9,
+        },
+        {
+          loc: `${SITE_URL}/tools/image-compressor`,
+          changefreq: "weekly",
+          priority: 0.9,
+        },
+        {
+          loc: `${SITE_URL}/tools/qr-code-generator`,
+          changefreq: "weekly",
+          priority: 0.9,
+        },
 
-    generateBundle() {
-      this.emitFile({
-        type: "asset",
-        fileName: "sitemap.xml",
-        source: buildSitemap(siteUrl),
-      });
-      this.emitFile({
-        type: "asset",
-        fileName: "robots.txt",
-        source: buildRobots(siteUrl),
-      });
+        // Main pages — medium priority
+        {
+          loc: `${SITE_URL}/about`,
+          changefreq: "monthly",
+          priority: 0.7,
+        },
+        {
+          loc: `${SITE_URL}/contact`,
+          changefreq: "monthly",
+          priority: 0.7,
+        },
+        {
+          loc: `${SITE_URL}/pricing`,
+          changefreq: "monthly",
+          priority: 0.7,
+        },
+
+        // Legal pages — lower priority but required for AdSense
+        {
+          loc: `${SITE_URL}/privacy-policy`,
+          changefreq: "yearly",
+          priority: 0.5,
+        },
+        {
+          loc: `${SITE_URL}/terms`,
+          changefreq: "yearly",
+          priority: 0.5,
+        },
+        {
+          loc: `${SITE_URL}/cookie-policy`,
+          changefreq: "yearly",
+          priority: 0.5,
+        },
+      ];
+
+      // Write sitemap.xml
+      const outDir = path.resolve(
+        import.meta.dirname,
+        "..",
+        "dist",
+        "public"
+      );
+
+      try {
+        mkdirSync(outDir, { recursive: true });
+
+        writeFileSync(
+          path.join(outDir, "sitemap.xml"),
+          generateSitemap(urls),
+          "utf-8"
+        );
+        console.log(
+          `✅ sitemap.xml generated with ${urls.length} URLs (base: ${SITE_URL})`
+        );
+
+        writeFileSync(
+          path.join(outDir, "robots.txt"),
+          generateRobotsTxt(),
+          "utf-8"
+        );
+        console.log(`✅ robots.txt generated`);
+      } catch (err) {
+        console.error("❌ Failed to write sitemap or robots.txt:", err);
+      }
     },
   };
 }
