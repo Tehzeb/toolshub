@@ -3,21 +3,70 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
-    <title>ToolsHub — Free utilities for everyday work</title>
-    <meta name="description" content="ToolsHub bundles a resume builder, file converters, downloaders, image compressor, and QR code generator in one polished, free toolkit." />
-    <meta name="theme-color" content="#7c5cff" />
-    <meta property="og:title" content="ToolsHub — Free utilities for everyday work" />
-    <meta property="og:description" content="A free, polished toolbox: resume builder, PDF & Word converters, image compressor, QR generator, and more." />
-    <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- ═══ PRIMARY SEO META TAGS ═══ -->
+    <title>ToolsHub — Free Online Tools for Everyday Work</title>
+    <meta name="title" content="ToolsHub — Free Online Tools for Everyday Work" />
+    <meta name="description" content="Free PDF compressor, image resizer, password generator, QR code creator, AI resume builder, YouTube downloader and more. No login required. 100% free online tools for students and freelancers." />
+    <meta name="keywords" content="free online tools, PDF to Word, Word to PDF, image compressor, password generator, QR code generator, AI resume builder, YouTube downloader, social video downloader, free tools Pakistan, ToolsHub" />
+    <meta name="author" content="Muhammad Tehzeeb ul Hassan" />
     <meta name="robots" content="index, follow" />
+    <meta name="language" content="English" />
+    <meta name="revisit-after" content="7 days" />
+    <meta name="theme-color" content="#7c5cff" />
+
+    <!-- ═══ CANONICAL URL — MOST IMPORTANT FIX ═══ -->
+    <link rel="canonical" href="https://toolshub-mauve.vercel.app/" />
+
+    <!-- ═══ OPEN GRAPH / FACEBOOK ═══ -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://toolshub-mauve.vercel.app/" />
+    <meta property="og:site_name" content="ToolsHub" />
+    <meta property="og:title" content="ToolsHub — Free Online Tools for Everyday Work" />
+    <meta property="og:description" content="Free PDF compressor, image resizer, password generator, QR code creator, AI resume builder and more. No login required. 100% free." />
+    <meta property="og:image" content="https://toolshub-mauve.vercel.app/opengraph.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- ═══ TWITTER CARD ═══ -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://toolshub-mauve.vercel.app/" />
+    <meta name="twitter:title" content="ToolsHub — Free Online Tools for Everyday Work" />
+    <meta name="twitter:description" content="Free PDF compressor, image resizer, password generator, QR code creator and more. No login required." />
+    <meta name="twitter:image" content="https://toolshub-mauve.vercel.app/opengraph.jpg" />
+    <meta name="twitter:creator" content="@tehzeeb_tech" />
+
+    <!-- ═══ SITEMAP + FAVICON ═══ -->
     <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- ═══ FONTS ═══ -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Google Analytics (GA4) -->
+    <!-- ═══ STRUCTURED DATA — JSON-LD (helps Google understand your site) ═══ -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "ToolsHub",
+      "url": "https://toolshub-mauve.vercel.app/",
+      "description": "Free online tools for everyday work — no login required",
+      "author": {
+        "@type": "Person",
+        "name": "Muhammad Tehzeeb ul Hassan"
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://toolshub-mauve.vercel.app/?search={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+
+    <!-- ═══ GOOGLE ANALYTICS (GA4) ═══ -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-DYXLTX9LV7"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -26,8 +75,38 @@
       gtag('config', 'G-DYXLTX9LV7');
     </script>
 
-    <!-- Google AdSense -->
+    <!-- ═══ GOOGLE ADSENSE ═══ -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6198237615351180" crossorigin="anonymous"></script>
+
+    <!-- ═══ DYNAMIC CANONICAL UPDATER — updates canonical for each page route ═══ -->
+    <script>
+      (function() {
+        var base = 'https://toolshub-mauve.vercel.app';
+        function updateCanonical() {
+          var canonical = document.querySelector('link[rel="canonical"]');
+          if (canonical) {
+            canonical.setAttribute('href', base + window.location.pathname);
+          }
+        }
+        // Update on page load
+        updateCanonical();
+        // Update when React Router changes page (catches client-side navigation)
+        var _pushState = history.pushState;
+        var _replaceState = history.replaceState;
+        history.pushState = function() {
+          _pushState.apply(history, arguments);
+          setTimeout(updateCanonical, 50);
+        };
+        history.replaceState = function() {
+          _replaceState.apply(history, arguments);
+          setTimeout(updateCanonical, 50);
+        };
+        window.addEventListener('popstate', function() {
+          setTimeout(updateCanonical, 50);
+        });
+      })();
+    </script>
+
   </head>
   <body>
     <div id="root"></div>
